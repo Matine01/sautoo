@@ -13,7 +13,7 @@ client.on('voiceStateUpdate', (oldState, newState) => {
   // Check if the user's voice channel has changed
   if (oldState.channelID !== newState.channelID) {
     const userId = newState.id;
-    if (userId === '759139546113507348') {
+    if (userId === '763515736622104597') {
       // Get the new voice channel
       const voiceChannel = client.channels.cache.get(newState.channelID);
       // Make sure the voice channel is defined
