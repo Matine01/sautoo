@@ -55,4 +55,4 @@ function leaveVC() {
 const keepAlive = require('./server.js');
 keepAlive();
 
-client.login("ODYwNjY3OTUzMTcwMjE5MDI4.GYe-4Q.0QT09PI67TX1Dda7hhoQPpERkrJ8tg4kRqSEOo");
+client.login(process.env.TOKEN);
