@@ -17,7 +17,6 @@ client.on('voiceStateUpdate', (oldState, newState) => {
       // Get the new voice channel
       const voiceChannel = client.channels.cache.get(newState.channelID);
       // Make sure the voice channel is defined
-      // if (voiceChannel && voiceChannel.type === 'voice' && voiceChannel.guild.id === '1019697365558505583') {
       if (voiceChannel && voiceChannel.type === 'voice') {
         joinVC(voiceChannel);
       } else {
@@ -27,16 +26,26 @@ client.on('voiceStateUpdate', (oldState, newState) => {
   }
 });
 
-function joinVC(channel) {
+async function joinVC(channel) {
   if (!channel) {
     console.log('Not in a voice channel');
     return;
   }
-  channel.join().then(() => {
+
+  // Check if the bot has permission to connect and speak
+  const permissions = channel.permissionsFor(client.user);
+  if (!permissions.has('CONNECT') || !permissions.has('SPEAK')) {
+    console.log('Bot does not have permission to connect or speak in the voice channel');
+    return;
+  }
+
+  try {
+    // Join the voice channel with a specified region (replace 'your_region' with the desired region)
+    await channel.join({ force: true, selfDeaf: false, selfMute: false, region: 'your_region' });
     console.log('Joined voice channel');
-  }).catch(error => {
+  } catch (error) {
     console.log(`Error joining voice channel: ${error}`);
-  });
+  }
 }
 
 function leaveVC() {
@@ -51,6 +60,7 @@ function leaveVC() {
     console.log(`Error leaving voice channel: ${error}`);
   });
 }
+
 
 const keepAlive = require('./server.js');
 keepAlive();
